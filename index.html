@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jornada de Trabalho</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a7cff">
+<style>
+body { font-family: Arial; background:#f2f2f2; padding:15px }
+.card { background:#fff; padding:15px; border-radius:10px }
+input,button { width:100%; padding:10px; margin:6px 0 }
+button { background:#0a7cff; color:#fff; border:none }
+.result { margin-top:10px; font-weight:bold }
+</style>
+</head>
+
+<body>
+<div class="card">
+<h2>⏱ Jornada de Trabalho</h2>
+
+<label>Entrada</label>
+<input type="time" id="entrada">
+
+<label>Jornada (horas)</label>
+<input type="time" id="jornada" value="07:20">
+
+<label>Intervalo</label>
+<input type="time" id="intervalo" value="01:30">
+
+<button onclick="calcular()">Calcular saída</button>
+
+<div class="result" id="resultado"></div>
+</div>
+
+<script>
+function toMin(t){ let [h,m]=t.split(':'); return (+h)*60+(+m) }
+function toHora(m){ return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0') }
+
+function calcular(){
+let e=document.getElementById('entrada').value;
+let j=document.getElementById('jornada').value;
+let i=document.getElementById('intervalo').value;
+if(!e) return;
+let total=toMin(e)+toMin(j)+toMin(i);
+document.getElementById('resultado').innerText='Saída: '+toHora(total);
+}
+
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>
